@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/frame"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/text_visor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#6A6A6A"
+        android:gravity="end"
+        android:padding="16dp"
+        android:text="@string/_0"
+        android:textAlignment="textEnd"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:tag="@string/portrait"/>
+
+</LinearLayout>
