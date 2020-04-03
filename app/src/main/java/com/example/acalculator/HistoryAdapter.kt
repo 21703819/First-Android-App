@@ -31,15 +31,3 @@ RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
         return items.size
     }
 }
-/*
-class HistoryAdapter (context: Context, private val layout: Int, items:MutableList<Operation>) :
-    ArrayAdapter<Operation>(context, layout, items) {
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = convertView?: LayoutInflater.from(context).inflate(layout, parent, false)
-        view.text_expression.text = getItem(position)?.expression
-        view.text_result.text = getItem(position)?.result.toString()
-        return view;
-    }
-}
-*/

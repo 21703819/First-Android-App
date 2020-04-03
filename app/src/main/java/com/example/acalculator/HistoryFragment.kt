@@ -2,6 +2,7 @@ package com.example.acalculator
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,14 +23,12 @@ class HistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: ArrayList<Operation>? = null
 
+    private val TAG = CalculatorFragment::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
-
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,14 +36,20 @@ class HistoryFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_history, container, false)
         ButterKnife.bind(this,view)
         activity?.title = "Historico"
+        list_historic?.layoutManager = LinearLayoutManager(activity as Context)
         arguments?.let {
             param1 = it.getParcelableArrayList(EXTRA_LIST)
 
         }
-        list_historic_verical?.layoutManager = LinearLayoutManager(activity as Context)
-        list_historic_verical?.adapter =
-            param1?.let { HistoryAdapter(activity as Context, R.layout.item_expression, it) }
-
+        list_historic?.adapter = HistoryAdapter(activity as Context, R.layout.item_expression,
+            this.param1!!
+        )
+        (list_historic?.adapter as HistoryAdapter?)?.notifyDataSetChanged()
+        for(i in (param1 )!!) {
+            Log.i(TAG, "ENTREIIII")
+            Log.i(TAG, "${i.result}")
+            //os dados chegaram
+        }
         return view
     }
     companion object {

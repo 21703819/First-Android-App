@@ -14,7 +14,6 @@
         android:background="#6A6A6A"
         android:gravity="end"
         android:padding="16dp"
-        android:tag="@string/portrait"
         android:text="@string/_0"
         android:textAlignment="textEnd"
         android:textColor="#FFFFFF"

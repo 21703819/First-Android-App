@@ -10,14 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="teste"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_weight="8"
-        android:id="@+id/list_historic_verical"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="OnClickList">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_historic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 
 
 </FrameLayout>
