@@ -22,7 +22,7 @@ class CalculatorFragment : Fragment() {
 
     private var lastEquation = "0"
 
-    var operations = ArrayList<Operation>()
+    companion object operations: ArrayList<Operation>()
 
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class CalculatorFragment : Fragment() {
         ButterKnife.bind(this, view)
         return view
     }
-
+    /*
     @Optional
     @OnClick(R.id.fab)
     fun onClickFabButton(view: View) {
@@ -45,6 +45,8 @@ class CalculatorFragment : Fragment() {
         }
     }
 
+
+     */
     @Optional
     @OnClick(
         R.id.button_0,
@@ -108,13 +110,10 @@ class CalculatorFragment : Fragment() {
         lastEquation = text_visor.text.toString()
         text_visor.text = operation.result.toString()
         lastEquation += "= ${text_visor.text}"
-
-        operations.add(operation)
         Log.i(TAG, "O resultado da expressão é ${operation.result}")
         list_historic?.layoutManager = LinearLayoutManager(activity as Context)
         list_historic?.adapter =
             HistoryAdapter(activity as Context, R.layout.item_expression, operations)
-
         operations.add(operation)
         Log.i(TAG, "Entrei aqui")
 

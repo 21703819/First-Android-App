@@ -23,7 +23,7 @@ class HistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: ArrayList<Operation>? = null
 
-    private val TAG = CalculatorFragment::class.java.simpleName
+    private val TAG = HistoryFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +36,9 @@ class HistoryFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_history, container, false)
         ButterKnife.bind(this,view)
         activity?.title = "Historico"
-        list_historic?.layoutManager = LinearLayoutManager(activity as Context)
         arguments?.let {
             param1 = it.getParcelableArrayList(EXTRA_LIST)
-
         }
-        list_historic?.adapter = HistoryAdapter(activity as Context, R.layout.item_expression,
-            this.param1!!
-        )
         (list_historic?.adapter as HistoryAdapter?)?.notifyDataSetChanged()
         for(i in (param1 )!!) {
             Log.i(TAG, "ENTREIIII")
@@ -51,6 +46,14 @@ class HistoryFragment : Fragment() {
             //os dados chegaram
         }
         return view
+    }
+
+    override fun onStart() {
+        list_historic?.layoutManager = LinearLayoutManager(activity as Context)
+        param1.let{list_historic?.adapter=
+            it?.let { it1 -> HistoryAdapter(activity as Context, R.layout.item_expression, it1) }
+        }
+        super.onStart()
     }
     companion object {
         @JvmStatic
