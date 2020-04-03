@@ -1,11 +1,14 @@
 package com.example.acalculator
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.fragment_history.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,10 +24,11 @@ class HistoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getParcelableArrayList(EXTRA_LIST)
-        }
+
     }
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,25 +36,25 @@ class HistoryFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_history, container, false)
         ButterKnife.bind(this,view)
+        activity?.title = "Historico"
+        arguments?.let {
+            param1 = it.getParcelableArrayList(EXTRA_LIST)
+
+        }
+        list_historic_verical?.layoutManager = LinearLayoutManager(activity as Context)
+        list_historic_verical?.adapter =
+            param1?.let { HistoryAdapter(activity as Context, R.layout.item_expression, it) }
+
         return view
     }
-
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HistoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: ArrayList<Operation>) =
-            HistoryFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(EXTRA_LIST,param1)
-                }
-            }
+        fun newInstance(param1:ArrayList<Operation>) : HistoryFragment{
+            val fragment = HistoryFragment()
+            val args = Bundle()
+            args.putParcelableArrayList(EXTRA_LIST, param1)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

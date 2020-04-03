@@ -40,9 +40,11 @@ class CalculatorFragment : Fragment() {
     @Optional
     @OnClick(R.id.fab)
     fun onClickFabButton(view: View) {
-        val intent = Intent(activity as Context, MainActivity::class.java)
-        intent.apply {putExtra(EXTRA_LIST, operations_portrait) }
-        fragmentManager?.let { NavigationManager.goToHistoryFragment(it) }
+        //val intent = Intent(activity as Context, MainActivity::class.java)
+        //intent.apply {putExtra(EXTRA_LIST, operations_portrait) }
+        fragmentManager?.let {
+            NavigationManager.goToHistoryFragment(it, operations_portrait)
+        }
     }
     @Optional
     @OnClick(R.id.button_0, R.id.button_1, R.id.button_2, R.id.button_3, R.id.button_4, R.id.button_5,
