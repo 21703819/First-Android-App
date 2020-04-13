@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
@@ -53,26 +54,7 @@ class HistoryFragment : Fragment() {
         layout_view?.layoutManager = LinearLayoutManager(this.context)
         layout_view?.adapter = HistoryAdapter(context!!, R.layout.item_expression, list)
 
+
         return view
     }
-/*
-    override fun onStart() {
-        list_historic?.layoutManager = LinearLayoutManager(activity as Context)
-        param1.let{list_historic?.adapter=
-            it?.let { it1 -> HistoryAdapter(activity as Context, R.layout.item_expression, it1) }
-        }
-        super.onStart()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1:ArrayList<Operation>) : HistoryFragment{
-            val fragment = HistoryFragment()
-            val args = Bundle()
-            args.putParcelableArrayList(EXTRA_LIST, param1)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-     */
 }

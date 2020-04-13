@@ -28,4 +28,9 @@ class ListStorage private constructor(){
     fun getAll(): List<Operation> {
         return storage.toList()
     }
+    fun delete(id:Int?) {
+        if (id != null) {
+            storage.removeAt(id)
+        }
+    }
 }

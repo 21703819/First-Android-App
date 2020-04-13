@@ -43,4 +43,8 @@ class CalculatorViewModel : ViewModel() {
     fun getOperations(): List<Operation> {
         return calculatorLogic.getOperations()
     }
+    fun removeFromHistory(id: Int?) {
+        calculatorLogic.removeFromHistoric(id)
+        notifyOnDisplayChanged()
+    }
 }

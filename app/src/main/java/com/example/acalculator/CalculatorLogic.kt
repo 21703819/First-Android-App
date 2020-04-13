@@ -43,4 +43,7 @@ class CalculatorLogic {
     fun getOperations(): List<Operation> {
         return storage.getAll()
     }
+    fun removeFromHistoric(id: Int?) {
+        storage.delete(id)
+    }
 }
