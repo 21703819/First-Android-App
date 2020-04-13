@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.fragment_history.*
 
@@ -25,6 +27,12 @@ class HistoryFragment : Fragment() {
 
     private val TAG = HistoryFragment::class.java.simpleName
 
+    private lateinit var viewModel: CalculatorViewModel
+
+    private var layout_view: RecyclerView? = null
+
+    private var list: List<Operation> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,20 +42,20 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_history, container, false)
+        viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
         ButterKnife.bind(this,view)
         activity?.title = "Historico"
-        arguments?.let {
-            param1 = it.getParcelableArrayList(EXTRA_LIST)
-        }
-        (list_historic?.adapter as HistoryAdapter?)?.notifyDataSetChanged()
-        for(i in (param1 )!!) {
-            Log.i(TAG, "ENTREIIII")
-            Log.i(TAG, "${i.result}")
-            //os dados chegaram
-        }
+
+        list = viewModel.getOperations()
+        Log.i(TAG, "dçajflkjsdklfjlkasdjfklsadklf   ${list.size}")
+
+        layout_view = view?.findViewById(R.id.list_historic)
+        layout_view?.layoutManager = LinearLayoutManager(this.context)
+        layout_view?.adapter = HistoryAdapter(context!!, R.layout.item_expression, list)
+
         return view
     }
-
+/*
     override fun onStart() {
         list_historic?.layoutManager = LinearLayoutManager(activity as Context)
         param1.let{list_historic?.adapter=
@@ -55,6 +63,7 @@ class HistoryFragment : Fragment() {
         }
         super.onStart()
     }
+
     companion object {
         @JvmStatic
         fun newInstance(param1:ArrayList<Operation>) : HistoryFragment{
@@ -65,4 +74,5 @@ class HistoryFragment : Fragment() {
             return fragment
         }
     }
+     */
 }

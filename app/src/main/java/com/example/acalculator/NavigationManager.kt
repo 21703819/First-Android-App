@@ -1,8 +1,5 @@
 package com.example.acalculator
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
@@ -18,9 +15,8 @@ abstract class NavigationManager {
         fun goToCalculatorFragment(fm: FragmentManager) {
             placeFragment(fm, CalculatorFragment())
         }
-        fun goToHistoryFragment(fm: FragmentManager, param1: ArrayList<Operation>) {
-            placeFragment(fm, HistoryFragment.newInstance(param1))
+        fun goToHistoryFragment(fm: FragmentManager) {
+            placeFragment(fm, HistoryFragment())
         }
-
     }
 }

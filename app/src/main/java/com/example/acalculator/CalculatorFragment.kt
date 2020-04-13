@@ -8,21 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import butterknife.ButterKnife
 import butterknife.OnClick
 import butterknife.Optional
 import kotlinx.android.synthetic.main.fragment_calculator.*
+import kotlinx.android.synthetic.main.fragment_calculator.view.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
 
-class CalculatorFragment : Fragment() {
+class CalculatorFragment : Fragment(), OnDisplayChanged {
 
     private val TAG = CalculatorFragment::class.java.simpleName
 
-    private var lastEquation = "0"
-
-    companion object operations: ArrayList<Operation>()
+    private lateinit var viewModel: CalculatorViewModel
 
 
     override fun onCreateView(
@@ -30,25 +30,26 @@ class CalculatorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.title = "ACalculator"
         val view: View = inflater.inflate(R.layout.fragment_calculator, container, false)
+        viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
+        viewModel.display.let { view.text_visor.text = it }
         ButterKnife.bind(this, view)
         return view
     }
-    /*
+
     @Optional
-    @OnClick(R.id.fab)
-    fun onClickFabButton(view: View) {
-        //val intent = Intent(activity as Context, MainActivity::class.java)
-        //intent.apply {putExtra(EXTRA_LIST, operations_portrait) }
-        fragmentManager?.let {
-            NavigationManager.goToHistoryFragment(it, operations)
-        }
+    @OnClick(R.id.button_last_equation)
+    fun onLastEquation(view: View) {
+        viewModel.onLastEquation()
     }
-
-
-     */
     @Optional
     @OnClick(
+        R.id.button_adition,
+        R.id.button_divide,
+        R.id.button_multiplicate,
+        R.id.button_sub,
+        R.id.button_dot,
         R.id.button_0,
         R.id.button_1,
         R.id.button_2,
@@ -62,65 +63,35 @@ class CalculatorFragment : Fragment() {
         R.id.button_2_again,
         R.id.button_00
     )
-    fun onClickNumber(view: View) {
-        val number = view.tag.toString()
-        Log.i(TAG, text_visor.text.toString())
-        if (text_visor.text.toString() == "0") {
-            text_visor.text = number
-        } else {
-            text_visor.append(number)
-        }
-    }
-
-    @Optional
-    @OnClick(R.id.button_last_equation)
-    fun onLastEquation(view: View) {
-        text_visor.text = lastEquation
-    }
-
-    @OnClick(
-        R.id.button_adition,
-        R.id.button_divide,
-        R.id.button_multiplicate,
-        R.id.button_sub,
-        R.id.button_dot
-    )
     fun onClickSymbol(view: View) {
-        val symbol = view.tag.toString()
-        text_visor.append(symbol)
+        viewModel.onClickSymbol(view.tag.toString())
     }
 
     @OnClick(R.id.button_clear_last)
     fun onClickDelete(view: View) {
-        val length = text_visor.text.length
-        if (length > 1) {
-            val newText = text_visor.text.subSequence(0, length - 1)
-            text_visor.text = newText
-        } else {
-            text_visor.text = "0"
-        }
+        viewModel.onClickDelete()
     }
 
     @OnClick(R.id.button_equals)
     fun onClickEquals(view: View) {
-        Log.i(TAG, "Click no botão =")
-        val expression = ExpressionBuilder(text_visor.text.toString()).build()
-        val result = expression.evaluate()
-        val operation = Operation(text_visor.text.toString(), result)
-        lastEquation = text_visor.text.toString()
-        text_visor.text = operation.result.toString()
-        lastEquation += "= ${text_visor.text}"
-        Log.i(TAG, "O resultado da expressão é ${operation.result}")
-        list_historic?.layoutManager = LinearLayoutManager(activity as Context)
-        list_historic?.adapter =
-            HistoryAdapter(activity as Context, R.layout.item_expression, operations)
-        operations.add(operation)
-        Log.i(TAG, "Entrei aqui")
-
+        viewModel.onClickEquals()
     }
 
     @OnClick(R.id.button_clear_all)
     fun onClickClearAll(view: View) {
-        text_visor.text = "0"
+        viewModel.onClickClearAll()
+    }
+
+    override fun onStart() {
+        viewModel.registerListener(this)
+        super.onStart()
+    }
+
+    override fun onDisplayChanged(value: String?) {
+        value?.let { text_visor.text = it }
+    }
+    override fun onDestroy() {
+        viewModel.unregisterListener()
+        super.onDestroy()
     }
 }
