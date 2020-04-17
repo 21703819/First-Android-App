@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setupDrawerMenu()
-        NavigationManager.goToCalculatorFragment(supportFragmentManager)
+        if(!screenRotated(savedInstanceState)) {
+            NavigationManager.goToCalculatorFragment(supportFragmentManager)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -37,7 +39,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
-
+    private fun screenRotated(savedInstanceState: Bundle?): Boolean {
+        return savedInstanceState != null
+    }
     private fun setupDrawerMenu() {
         val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open,
             R.string.drawer_close)
